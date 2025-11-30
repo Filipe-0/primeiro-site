@@ -1,15 +1,114 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meu Primeiro Site</title>
-</head>
-<body>
-    <h1>Olá, mundo!</h1>
-    <p>Este é meu primeiro site feito no VS Code.</p>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jogo da Cobrinha</title>
 
-    <img src="imagen%20do%20meu%20site.jfif" alt="Minha imagem" width="300">
+<style>
+    body {
+        background: #222;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        color: white;
+        font-family: Arial;
+        flex-direction: column;
+    }
+
+    canvas {
+        background: #000;
+        border: 3px solid white;
+    }
+
+    h1 {
+        margin-bottom: 10px;
+    }
+</style>
+</head>
+
+<body>
+
+<h1>Jogo da Cobrinha</h1>
+<canvas id="game" width="400" height="400"></canvas>
+
+<script>
+const canvas = document.getElementById("game");
+const ctx = canvas.getContext("2d");
+
+let box = 20;
+let snake = [];
+snake[0] = { x: 10 * box, y: 10 * box };
+
+let direction = "RIGHT";
+
+let food = {
+    x: Math.floor(Math.random() * 19 + 1) * box,
+    y: Math.floor(Math.random() * 19 + 1) * box
+};
+
+document.addEventListener("keydown", event => {
+    if (event.key === "ArrowLeft" && direction !== "RIGHT") direction = "LEFT";
+    if (event.key === "ArrowUp" && direction !== "DOWN") direction = "UP";
+    if (event.key === "ArrowRight" && direction !== "LEFT") direction = "RIGHT";
+    if (event.key === "ArrowDown" && direction !== "UP") direction = "DOWN";
+});
+
+function draw() {
+    ctx.clearRect(0, 0, 400, 400);
+
+    // Desenha a comida
+    ctx.fillStyle = "red";
+    ctx.fillRect(food.x, food.y, box, box);
+
+    // Desenha a cobra
+    for (let i = 0; i < snake.length; i++) {
+        ctx.fillStyle = i === 0 ? "lime" : "white";
+        ctx.fillRect(snake[i].x, snake[i].y, box, box);
+    }
+
+    // Posição da cabeça da cobra
+    let snakeX = snake[0].x;
+    let snakeY = snake[0].y;
+
+    if (direction === "LEFT") snakeX -= box;
+    if (direction === "UP") snakeY -= box;
+    if (direction === "RIGHT") snakeX += box;
+    if (direction === "DOWN") snakeY += box;
+
+    // Se comer a comida
+    if (snakeX === food.x && snakeY === food.y) {
+        food = {
+            x: Math.floor(Math.random() * 19 + 1) * box,
+            y: Math.floor(Math.random() * 19 + 1) * box
+        };
+    } else {
+        snake.pop();
+    }
+
+    let newHead = { x: snakeX, y: snakeY };
+
+    // Game over: bate na parede
+    if (
+        snakeX < 0 || snakeX >= 400 ||
+        snakeY < 0 || snakeY >= 400 ||
+        collision(newHead, snake)
+    ) {
+        alert("Game Over!");
+        document.location.reload();
+    }
+
+    snake.unshift(newHead);
+}
+
+function collision(head, array) {
+    return array.some(seg => seg.x === head.x && seg.y === head.y);
+}
+
+setInterval(draw, 120);
+</script>
 
 </body>
 </html>
