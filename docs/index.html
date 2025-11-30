@@ -1,114 +1,570 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meus Jogos</title>
-
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #111;
-            color: white;
-            text-align: center;
-        }
-
-        h1 {
-            margin-top: 20px;
-        }
-
-        .game-box {
-            margin: 40px auto;
-            padding: 20px;
-            width: 90%;
-            max-width: 700px;
-            background: #222;
-            border-radius: 15px;
-            box-shadow: 0px 0px 20px rgba(255,255,255,0.1);
-        }
-
-        iframe {
-            width: 100%;
-            height: 400px;
-            border: none;
-            border-radius: 10px;
-            background: black;
-        }
-
-        button {
-            margin: 10px;
-            padding: 10px 20px;
-            font-size: 16px;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-        }
-
-        .start { background: #0a0; color: white; }
-        .stop { background: #a00; color: white; }
-    </style>
-
-    <script>
-        function startGame(id, url) {
-            document.getElementById(id).src = url;
-        }
-
-        function stopGame(id) {
-            document.getElementById(id).src = "";
-        }
-    </script>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Portal Gamer — Meus 6 Jogos</title>
+<style>
+  :root{
+    --bg:#0b0f13;
+    --card:#0f1720;
+    --accent:#00e6a8;
+    --accent2:#ff3b70;
+    --glass: rgba(255,255,255,0.03);
+    --neon: 0 0 18px rgba(0,230,168,0.15);
+    --mono: 'Segoe UI', Roboto, Arial, sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family:var(--mono);
+    background:
+      radial-gradient(800px 400px at 10% 10%, rgba(0,230,168,0.03), transparent 10%),
+      linear-gradient(180deg,#051019 0%, #07101a 50%, #030406 100%);
+    color:#e6eef4;
+    min-height:100vh;
+    -webkit-font-smoothing:antialiased;
+  }
+  header{
+    display:flex;
+    gap:16px;
+    align-items:center;
+    padding:18px;
+    border-bottom:1px solid rgba(255,255,255,0.04);
+    position:sticky; top:0; background:linear-gradient(90deg, rgba(11,15,19,0.7), rgba(11,15,19,0.5));
+    backdrop-filter: blur(6px);
+    z-index:10;
+  }
+  .logo{
+    display:flex; gap:12px; align-items:center;
+  }
+  .logo img{ width:56px; height:56px; object-fit:cover; border-radius:10px; box-shadow: var(--neon);}
+  h1{ font-size:18px; margin:0;}
+  p.lead{ margin:0; opacity:0.7; font-size:13px;}
+  .controls{ margin-left:auto; display:flex; gap:8px; align-items:center;}
+  .btn{
+    background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+    color:#e6eef4; border:1px solid rgba(255,255,255,0.04);
+    padding:8px 12px; border-radius:10px; cursor:pointer; font-weight:600;
+    display:inline-flex; gap:8px; align-items:center;
+  }
+  .btn.secondary{ background:none; border:1px dashed rgba(255,255,255,0.03); opacity:0.9;}
+  main{ padding:20px; max-width:1200px; margin:0 auto; }
+  .grid{
+    display:grid; gap:18px;
+    grid-template-columns: repeat(auto-fit,minmax(300px,1fr));
+    margin-top:20px;
+  }
+  .card{
+    background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border-radius:14px; padding:12px; border:1px solid rgba(255,255,255,0.03);
+    box-shadow: 0 6px 24px rgba(2,6,12,0.6);
+    display:flex; flex-direction:column; gap:10px;
+  }
+  .cardHeader{ display:flex; align-items:center; justify-content:space-between; gap:12px; }
+  .title{ display:flex; gap:10px; align-items:center; }
+  .title h2{ font-size:16px; margin:0;}
+  .meta{ font-size:12px; opacity:0.7;}
+  canvas{ width:100%; height:200px; background:linear-gradient(180deg,#020507,#071016); border-radius:8px; display:block; }
+  .cardFooter{ display:flex; gap:8px; align-items:center; justify-content:space-between;}
+  .controlsSmall{ display:flex; gap:8px; }
+  .smallBtn{ padding:6px 8px; border-radius:8px; border:1px solid rgba(255,255,255,0.04); background:transparent; cursor:pointer; font-weight:700;}
+  footer{ margin-top:30px; text-align:center; color:rgba(255,255,255,0.5); font-size:13px; padding:30px 0;}
+  /* effects */
+  .glow{ box-shadow: 0 0 12px rgba(0,230,168,0.12), 0 0 40px rgba(255,59,112,0.03); border:1px solid rgba(0,230,168,0.08);}
+  .badge{ background:linear-gradient(90deg,var(--accent),var(--accent2)); color:#031018; padding:4px 8px; border-radius:8px; font-weight:800; font-size:12px;}
+  /* responsive tweaks */
+  @media (max-width:600px){
+    canvas{ height:160px; }
+    header{ padding:12px; }
+    .logo img{ width:44px; height:44px;}
+    h1{ font-size:15px }
+  }
+  /* animations */
+  .pulse{ animation: pulse 2.4s infinite; }
+  @keyframes pulse{ 0%{transform:scale(1)}50%{transform:scale(1.02)}100%{transform:scale(1)}}
+</style>
 </head>
 <body>
+  <header>
+    <div class="logo">
+      <!-- use seu arquivo de imagem (com espaços, substitua por %20) -->
+      <img src="imagen%20do%20meu%20site.jfif" alt="Avatar do site" />
+      <div>
+        <h1>Primeiro Site — Zona Gamer</h1>
+        <p class="lead">6 minigames • Pause / Restart • Música & efeitos</p>
+      </div>
+    </div>
 
-<h1>🎮 Meus Jogos</h1>
+    <div class="controls">
+      <button id="musicToggle" class="btn">🔊 Música</button>
+      <button id="muteAll" class="btn secondary">🔇 Mudo</button>
+    </div>
+  </header>
 
-<!-- JOGO 1 -->
-<div class="game-box">
-    <h2>Jogo 1 – Tiro 2D</h2>
-    <iframe id="game1"></iframe>
-    <button class="start" onclick="startGame('game1', 'https://v6p9d9t4.ssl.hwcdn.net/html/500306/index.html')">Iniciar</button>
-    <button class="stop" onclick="stopGame('game1')">Parar</button>
-</div>
+  <main>
+    <div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
+      <div class="badge">🎮 6 Jogos</div>
+      <div style="opacity:0.8">Toque em <strong>Play</strong> de cada card para ativar o jogo.</div>
+    </div>
 
-<!-- JOGO 2 -->
-<div class="game-box">
-    <h2>Jogo 2 – Flappy Bird</h2>
-    <iframe id="game2"></iframe>
-    <button class="start" onclick="startGame('game2', 'https://flappybird.io/')">Iniciar</button>
-    <button class="stop" onclick="stopGame('game2')">Parar</button>
-</div>
+    <div class="grid">
+      <!-- Game 1: Space Shooter -->
+      <section class="card" id="card-shooter">
+        <div class="cardHeader">
+          <div class="title">
+            <h2>🔫 Shooter — Tiro espacial</h2>
+            <div class="meta">Use ← → e Espaço</div>
+          </div>
+          <div class="badge">Ação</div>
+        </div>
+        <canvas id="c-shooter"></canvas>
+        <div class="cardFooter">
+          <div class="controlsSmall">
+            <button class="smallBtn" data-game="shooter" data-action="play">Play</button>
+            <button class="smallBtn" data-game="shooter" data-action="pause">Pause</button>
+            <button class="smallBtn" data-game="shooter" data-action="restart">Restart</button>
+          </div>
+          <div class="meta">Pontuação: <span id="score-shooter">0</span></div>
+        </div>
+      </section>
 
-<!-- JOGO 3 -->
-<div class="game-box">
-    <h2>Jogo 3 – Dino Chrome</h2>
-    <iframe id="game3"></iframe>
-    <button class="start" onclick="startGame('game3', 'https://chromedino.com/')">Iniciar</button>
-    <button class="stop" onclick="stopGame('game3')">Parar</button>
-</div>
+      <!-- Game 2: Dodge -->
+      <section class="card" id="card-dodge">
+        <div class="cardHeader">
+          <div class="title"><h2>⬛ Dodge — Desvie dos blocos</h2><div class="meta">Use ← →</div></div>
+          <div class="badge">Reflexo</div>
+        </div>
+        <canvas id="c-dodge"></canvas>
+        <div class="cardFooter">
+          <div class="controlsSmall">
+            <button class="smallBtn" data-game="dodge" data-action="play">Play</button>
+            <button class="smallBtn" data-game="dodge" data-action="pause">Pause</button>
+            <button class="smallBtn" data-game="dodge" data-action="restart">Restart</button>
+          </div>
+          <div class="meta">Tempo: <span id="time-dodge">0</span>s</div>
+        </div>
+      </section>
 
-<!-- JOGO 4 -->
-<div class="game-box">
-    <h2>Jogo 4 – Carros 3D</h2>
-    <iframe id="game4"></iframe>
-    <button class="start" onclick="startGame('game4', 'https://crazygames.com/embed/monsters-wheels-special')">Iniciar</button>
-    <button class="stop" onclick="stopGame('game4')">Parar</button>
-</div>
+      <!-- Game 3: Snake -->
+      <section class="card" id="card-snake">
+        <div class="cardHeader">
+          <div class="title"><h2>🐍 Snake</h2><div class="meta">Use ↑ ↓ ← →</div></div>
+          <div class="badge">Clássico</div>
+        </div>
+        <canvas id="c-snake"></canvas>
+        <div class="cardFooter">
+          <div class="controlsSmall">
+            <button class="smallBtn" data-game="snake" data-action="play">Play</button>
+            <button class="smallBtn" data-game="snake" data-action="pause">Pause</button>
+            <button class="smallBtn" data-game="snake" data-action="restart">Restart</button>
+          </div>
+          <div class="meta">Score: <span id="score-snake">0</span></div>
+        </div>
+      </section>
 
-<!-- JOGO 5 -->
-<div class="game-box">
-    <h2>Jogo 5 – Parkour 3D</h2>
-    <iframe id="game5"></iframe>
-    <button class="start" onclick="startGame('game5', 'https://crazygames.com/embed/parkour')">Iniciar</button>
-    <button class="stop" onclick="stopGame('game5')">Parar</button>
-</div>
+      <!-- Game 4: Breakout -->
+      <section class="card" id="card-break">
+        <div class="cardHeader">
+          <div class="title"><h2>🧱 Breakout</h2><div class="meta">Mouse / Toque</div></div>
+          <div class="badge">Arcade</div>
+        </div>
+        <canvas id="c-break"></canvas>
+        <div class="cardFooter">
+          <div class="controlsSmall">
+            <button class="smallBtn" data-game="break" data-action="play">Play</button>
+            <button class="smallBtn" data-game="break" data-action="pause">Pause</button>
+            <button class="smallBtn" data-game="break" data-action="restart">Restart</button>
+          </div>
+          <div class="meta">Blocos: <span id="bricks-left">0</span></div>
+        </div>
+      </section>
 
-<!-- JOGO 6 -->
-<div class="game-box">
-    <h2>Jogo 6 – Atirador FPS</h2>
-    <iframe id="game6"></iframe>
-    <button class="start" onclick="startGame('game6', 'https://crazygames.com/embed/forward-assault')">Iniciar</button>
-    <button class="stop" onclick="stopGame('game6')">Parar</button>
-</div>
+      <!-- Game 5: Whack-a-mole -->
+      <section class="card" id="card-whack">
+        <div class="cardHeader">
+          <div class="title"><h2>🔨 Whack-a-mole</h2><div class="meta">Clique</div></div>
+          <div class="badge">Rápido</div>
+        </div>
+        <canvas id="c-whack"></canvas>
+        <div class="cardFooter">
+          <div class="controlsSmall">
+            <button class="smallBtn" data-game="whack" data-action="play">Play</button>
+            <button class="smallBtn" data-game="whack" data-action="pause">Pause</button>
+            <button class="smallBtn" data-game="whack" data-action="restart">Restart</button>
+          </div>
+          <div class="meta">Acertos: <span id="score-whack">0</span></div>
+        </div>
+      </section>
 
+      <!-- Game 6: Memory -->
+      <section class="card" id="card-memory">
+        <div class="cardHeader">
+          <div class="title"><h2>🧠 Memory</h2><div class="meta">Clique para virar</div></div>
+          <div class="badge">Puzzle</div>
+        </div>
+        <canvas id="c-memory"></canvas>
+        <div class="cardFooter">
+          <div class="controlsSmall">
+            <button class="smallBtn" data-game="memory" data-action="play">Play</button>
+            <button class="smallBtn" data-game="memory" data-action="pause">Pause</button>
+            <button class="smallBtn" data-game="memory" data-action="restart">Restart</button>
+          </div>
+          <div class="meta">Pairs: <span id="pairs-memory">0</span></div>
+        </div>
+      </section>
+
+    </div>
+
+    <footer>
+      Desenvolvido por você • Todos os jogos são simples exemplos — sinta-se livre para editar o código!
+    </footer>
+  </main>
+
+<script>
+/*
+  Código JavaScript que inicializa 6 jogos pequenos.
+  Cada jogo implementa: play / pause / restart.
+  Música e efeitos via WebAudio.
+*/
+
+// ---- Audio: simple background loop + sfx ----
+const AudioEngine = (function(){
+  const ctx = new (window.AudioContext || window.webkitAudioContext)();
+  let bgOsc, gainBG;
+  let playing = false;
+  function startBackground(){
+    if(playing) return;
+    gainBG = ctx.createGain(); gainBG.gain.value = 0.06;
+    bgOsc = ctx.createOscillator();
+    // create a simple warm chord using two oscillators modulated
+    bgOsc.type = 'sine';
+    bgOsc.frequency.value = 110; // base
+    const osc2 = ctx.createOscillator(); osc2.type='sawtooth'; osc2.frequency.value=220;
+    const g2 = ctx.createGain(); g2.gain.value = 0.02;
+    bgOsc.connect(gainBG);
+    osc2.connect(g2); g2.connect(gainBG);
+    gainBG.connect(ctx.destination);
+    bgOsc.start(); osc2.start();
+    playing = true;
+  }
+  function stopBackground(){
+    if(!playing) return;
+    try{ bgOsc.stop(); }catch(e){}
+    playing = false;
+  }
+  function clickSound(){
+    const o = ctx.createOscillator(), g=ctx.createGain();
+    o.type='square'; o.frequency.value=600;
+    g.gain.value=0.08;
+    o.connect(g); g.connect(ctx.destination);
+    o.start(); setTimeout(()=>{ g.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime+0.2); o.stop(ctx.currentTime+0.25); }, 50);
+  }
+  function boom(){
+    const b = ctx.createOscillator(), g=ctx.createGain();
+    b.type='sawtooth'; b.frequency.value=80;
+    g.gain.value=0.12;
+    b.connect(g); g.connect(ctx.destination);
+    b.start(); setTimeout(()=>{ g.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime+0.4); b.stop(ctx.currentTime+0.45); }, 80);
+  }
+  return { startBackground, stopBackground, clickSound, boom, ctx };
+})();
+
+// Music toggle button
+const musicToggle = document.getElementById('musicToggle');
+const muteAllBtn = document.getElementById('muteAll');
+let musicOn = false, muted = false;
+musicToggle.onclick = ()=> {
+  if(!musicOn){
+    AudioEngine.startBackground(); musicOn=true; musicToggle.textContent='🔊 Música ON';
+  } else {
+    AudioEngine.stopBackground(); musicOn=false; musicToggle.textContent='🔈 Música OFF';
+  }
+};
+muteAllBtn.onclick = ()=> { muted = !muted; muteAllBtn.textContent = muted? '🔇 Mudo' : '🔊 Som'; };
+
+// Helper: clear canvas
+function resizeCanvasToDisplaySize(canvas){
+  const ratio = window.devicePixelRatio || 1;
+  const w = Math.floor(canvas.clientWidth * ratio);
+  const h = Math.floor(canvas.clientHeight * ratio);
+  if(canvas.width !== w || canvas.height !== h){
+    canvas.width = w; canvas.height = h;
+    return true;
+  }
+  return false;
+}
+
+// Generic game manager for play/pause/restart
+class GameSlot {
+  constructor(id, initFn){
+    this.id = id; this.initFn = initFn; this.instance = null;
+    this.running = false;
+  }
+  play(){
+    if(!this.instance) this.instance = this.initFn(document.getElementById('c-'+this.id));
+    if(this.running) return;
+    this.running = true;
+    this.instance.start && this.instance.start();
+  }
+  pause(){
+    if(!this.instance) return;
+    this.running = false;
+    this.instance.pause && this.instance.pause();
+  }
+  restart(){
+    if(this.instance && this.instance.destroy) this.instance.destroy();
+    this.instance = this.initFn(document.getElementById('c-'+this.id));
+    if(this.running) this.instance.start && this.instance.start();
+  }
+}
+
+// ----------------- Shooter -----------------
+function initShooter(canvas){
+  const ctx = canvas.getContext('2d');
+  let raf; let score=0;
+  let w,h;
+  const player = {x:0,y:0,w:28,h:18};
+  const bullets=[]; const enemies=[];
+  let keys={left:false,right:false,space:false};
+  function spawnEnemy(){ enemies.push({x:Math.random()* (w-30), y:-30, s:1+Math.random()*1.4}); }
+  function start(){
+    resize(); score=0; bullets.length=0; enemies.length=0;
+    spawnEnemy(); loop();
+  }
+  function pause(){ cancelAnimationFrame(raf); }
+  function destroy(){ cancelAnimationFrame(raf); }
+  function resize(){ resizeCanvasToDisplaySize(canvas); w=canvas.width; h=canvas.height; player.x=w/2; player.y=h-40; }
+  function loop(){
+    raf = requestAnimationFrame(loop); draw(); update();
+  }
+  function update(){
+    if(keys.left) player.x -= 6;
+    if(keys.right) player.x += 6;
+    player.x = Math.max(10, Math.min(w-10, player.x));
+    if(keys.space && Math.random()<0.3) { bullets.push({x:player.x, y:player.y-10, s:8}); AudioEngine.clickSound(); }
+    bullets.forEach((b,i)=>{ b.y -= b.s; if(b.y< -10) bullets.splice(i,1); });
+    enemies.forEach((e, i)=>{ e.y += e.s; if(e.y>h+20) enemies.splice(i,1); });
+    // collisions
+    enemies.forEach((e, ei)=> bullets.forEach((b,bi)=> {
+      if(Math.abs(e.x-b.x)<20 && Math.abs(e.y-b.y)<20){ enemies.splice(ei,1); bullets.splice(bi,1); score+=10; AudioEngine.boom(); }
+    }));
+    if(Math.random()<0.03) spawnEnemy();
+    document.getElementById('score-shooter').textContent = score;
+  }
+  function draw(){
+    ctx.clearRect(0,0,w,h);
+    // starfield
+    ctx.fillStyle='rgba(255,255,255,0.03)';
+    for(let i=0;i<75;i++){ ctx.fillRect((i*47)%w, (i*31)%h, 1,1); }
+    // player
+    ctx.fillStyle='#00e6a8'; ctx.beginPath(); ctx.moveTo(player.x, player.y-12); ctx.lineTo(player.x-14, player.y+10); ctx.lineTo(player.x+14, player.y+10); ctx.fill();
+    // bullets
+    ctx.fillStyle='#fff'; bullets.forEach(b=> ctx.fillRect(b.x-2,b.y-6,4,8));
+    // enemies
+    ctx.fillStyle='#ff3b70'; enemies.forEach(e=> ctx.fillRect(e.x-12,e.y-10,24,16));
+  }
+
+  // input
+  window.addEventListener('keydown', (e)=>{ if(e.key==='ArrowLeft') keys.left=true; if(e.key==='ArrowRight') keys.right=true; if(e.key===' ') keys.space=true; });
+  window.addEventListener('keyup', (e)=>{ if(e.key==='ArrowLeft') keys.left=false; if(e.key==='ArrowRight') keys.right=false; if(e.key===' ') keys.space=false; });
+
+  return { start, pause, destroy };
+}
+
+// ----------------- Dodge -----------------
+function initDodge(canvas){
+  const ctx = canvas.getContext('2d'); let w,h; let raf, startTime, elapsed=0; let playerX=0; const blocks=[];
+  function start(){ resize(); blocks.length=0; startTime=Date.now(); elapsed=0; playerX=w/2; loop(); }
+  function pause(){ cancelAnimationFrame(raf); }
+  function destroy(){ cancelAnimationFrame(raf); }
+  function resize(){ resizeCanvasToDisplaySize(canvas); w=canvas.width; h=canvas.height; }
+  function loop(){ raf=requestAnimationFrame(loop); update(); draw(); }
+  function update(){
+    elapsed = Math.floor((Date.now()-startTime)/1000);
+    if(Math.random()<0.03) blocks.push({x:Math.random()*(w-30), y:-20, s:2+Math.random()*2});
+    blocks.forEach((b,i)=>{ b.y+=b.s; if(b.y>h) blocks.splice(i,1); if(Math.abs(b.x-playerX)<28 && Math.abs(b.y-(h-30))<18){ /* hit -> reset */ startTime=Date.now(); blocks.length=0; AudioEngine.boom(); }});
+    document.getElementById('time-dodge').textContent = elapsed;
+  }
+  function draw(){
+    ctx.clearRect(0,0,w,h);
+    ctx.fillStyle='rgba(255,255,255,0.02)'; ctx.fillRect(0,0,w,h);
+    blocks.forEach(b=>{ ctx.fillStyle='#ff3b70'; ctx.fillRect(b.x,b.y,28,28); });
+    // player
+    ctx.fillStyle='#00e6a8'; ctx.fillRect(playerX-30, h-36, 60, 20);
+  }
+  window.addEventListener('mousemove', e => {
+    const rect = canvas.getBoundingClientRect(); const ratio = (window.devicePixelRatio||1);
+    playerX = (e.clientX-rect.left)*ratio;
+  });
+  return { start, pause, destroy };
+}
+
+// ----------------- Snake -----------------
+function initSnake(canvas){
+  const ctx = canvas.getContext('2d'); let raf; let w,h, size=16; let gridW, gridH;
+  let snake = [], dir={x:1,y:0}, apple=null; let tick=0; let score=0;
+  function reset(){ resize(); snake=[{x:5,y:5},{x:4,y:5},{x:3,y:5}]; dir={x:1,y:0}; spawnApple(); score=0; document.getElementById('score-snake').textContent=score;}
+  function start(){ reset(); loop(); }
+  function pause(){ cancelAnimationFrame(raf); }
+  function destroy(){ cancelAnimationFrame(raf); }
+  function resize(){ resizeCanvasToDisplaySize(canvas); w=canvas.width; h=canvas.height; gridW = Math.floor(w/size); gridH = Math.floor(h/size); }
+  function spawnApple(){ apple = {x: Math.floor(Math.random()*gridW), y: Math.floor(Math.random()*gridH)}; }
+  function loop(){ raf=requestAnimationFrame(loop); tick++; if(tick%8===0) step(); draw(); }
+  function step(){
+    const head = {x: snake[0].x + dir.x, y: snake[0].y + dir.y};
+    if(head.x<0 || head.x>=gridW || head.y<0 || head.y>=gridH){ reset(); return; }
+    snake.unshift(head);
+    if(head.x===apple.x && head.y===apple.y){ score+=5; document.getElementById('score-snake').textContent=score; spawnApple(); AudioEngine.clickSound(); }
+    else snake.pop();
+  }
+  function draw(){
+    ctx.clearRect(0,0,w,h);
+    // draw apple
+    ctx.fillStyle='#ff3b70'; ctx.fillRect(apple.x*size, apple.y*size, size, size);
+    // draw snake
+    ctx.fillStyle='#00e6a8'; snake.forEach(s=> ctx.fillRect(s.x*size, s.y*size, size-1, size-1));
+  }
+  window.addEventListener('keydown', e=>{
+    if(e.key==='ArrowUp' && dir.y!==1) dir={x:0,y:-1};
+    if(e.key==='ArrowDown' && dir.y!==-1) dir={x:0,y:1};
+    if(e.key==='ArrowLeft' && dir.x!==1) dir={x:-1,y:0};
+    if(e.key==='ArrowRight' && dir.x!==-1) dir={x:1,y:0};
+  });
+  return { start, pause, destroy };
+}
+
+// ----------------- Breakout -----------------
+function initBreakout(canvas){
+  const ctx = canvas.getContext('2d'); let w,h; let raf; let paddleX, ball, bricks=[];
+  function resize(){ resizeCanvasToDisplaySize(canvas); w=canvas.width; h=canvas.height; paddleX = w/2; bricks=[]; const rows=4, cols=7; const bw = Math.floor(w/cols)-8; for(let r=0;r<rows;r++){ for(let c=0;c<cols;c++){ bricks.push({x: c*(bw+8)+8, y: r*22+8, w:bw, h:16}); } } document.getElementById('bricks-left').textContent = bricks.length; }
+  function start(){ resize(); ball={x:w/2,y:h-60, vx:4, vy:-4, r:8}; loop(); }
+  function pause(){ cancelAnimationFrame(raf); }
+  function destroy(){ cancelAnimationFrame(raf); }
+  function loop(){ raf=requestAnimationFrame(loop); update(); draw(); }
+  function update(){
+    ball.x += ball.vx; ball.y += ball.vy;
+    if(ball.x<ball.r || ball.x>w-ball.r) ball.vx *= -1;
+    if(ball.y<ball.r) ball.vy *= -1;
+    if(ball.y>h) { // lost
+      ball.x=w/2; ball.y=h-60; ball.vx=4; ball.vy=-4;
+    }
+    // paddle collision
+    if(ball.y + ball.r >= h-30 && Math.abs(ball.x - paddleX) < 80){ ball.vy *= -1; AudioEngine.clickSound(); }
+    // bricks
+    bricks.forEach((b,i)=>{ if(ball.x > b.x && ball.x < b.x+b.w && ball.y > b.y && ball.y < b.y+b.h){ bricks.splice(i,1); ball.vy *= -1; AudioEngine.boom(); document.getElementById('bricks-left').textContent = bricks.length; }});
+  }
+  function draw(){
+    ctx.clearRect(0,0,w,h);
+    ctx.fillStyle='#00e6a8'; ctx.fillRect(paddleX-60,h-30,120,10);
+    ctx.beginPath(); ctx.fillStyle='#fff'; ctx.arc(ball.x,ball.y,ball.r,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle='#ff3b70'; bricks.forEach(b=> ctx.fillRect(b.x,b.y,b.w,b.h));
+  }
+  window.addEventListener('mousemove', e=>{
+    const rect = canvas.getBoundingClientRect(); const ratio = (window.devicePixelRatio||1); paddleX = (e.clientX-rect.left)*ratio;
+  });
+  return { start, pause, destroy };
+}
+
+// ----------------- Whack-a-mole -----------------
+function initWhack(canvas){
+  const ctx = canvas.getContext('2d'); let w,h, raf; let holes=[], mole=null, score=0;
+  function resize(){ resizeCanvasToDisplaySize(canvas); w=canvas.width; h=canvas.height; holes=[]; const cols=3, rows=2; const gap=20; const bw = (w - gap*(cols+1)) / cols; for(let r=0;r<rows;r++){ for(let c=0;c<cols;c++){ holes.push({x:gap + c*(bw+gap), y: gap + r*(bw/1.6 + gap), w:bw, h: bw/1.6}); } } }
+  let running=true;
+  function start(){ resize(); mole = null; score=0; window.setTimeout(spawn,500); loop(); }
+  function pause(){ running=false; cancelAnimationFrame(raf); }
+  function destroy(){ running=false; cancelAnimationFrame(raf); }
+  function spawn(){ if(!running) return; const idx = Math.floor(Math.random()*holes.length); mole = {idx, ts: Date.now()}; setTimeout(()=> { mole=null; if(running) spawn(); }, 800 + Math.random()*700); }
+  function loop(){ raf=requestAnimationFrame(loop); draw(); }
+  function draw(){
+    ctx.clearRect(0,0,w,h);
+    // holes
+    holes.forEach((h0,i)=>{ ctx.fillStyle='rgba(255,255,255,0.02)'; ctx.fillRect(h0.x,h0.y,h0.w,h0.h); });
+    if(mole !== null){ const h0 = holes[mole.idx]; ctx.fillStyle='#ff3b70'; ctx.fillRect(h0.x+10,h0.y-10,h0.w-20,h0.h+10); }
+    ctx.fillStyle='#00e6a8'; ctx.fillText('Score: '+score, 12, 20);
+    document.getElementById('score-whack').textContent = score;
+  }
+  canvas.addEventListener('click', (e)=>{
+    if(!mole) return;
+    const rect = canvas.getBoundingClientRect(); const ratio = (window.devicePixelRatio||1);
+    const x = (e.clientX - rect.left) * ratio; const y = (e.clientY - rect.top) * ratio;
+    const h0 = holes[mole.idx];
+    if(x > h0.x && x < h0.x+h0.w && y > h0.y && y < h0.y+h0.h){ score++; mole=null; AudioEngine.clickSound(); }
+  });
+  return { start, pause, destroy };
+}
+
+// ----------------- Memory -----------------
+function initMemory(canvas){
+  const ctx = canvas.getContext('2d'); let w,h, raf; let cards=[], flipped=[], pairs=0;
+  function resize(){ resizeCanvasToDisplaySize(canvas); w=canvas.width; h=canvas.height; }
+  function seed(){
+    // create simple pairs (numbers/colors)
+    const vals = [1,2,3,4,5,6]; const arr = vals.concat(vals).sort(()=>Math.random()-0.5);
+    cards = arr.map((v,i)=> ({v, revealed:false, x: (i%4)* (w/4), y: Math.floor(i/4)*(h/3), w: w/4 - 10, h: h/3 - 10}));
+    flipped=[]; pairs=0; document.getElementById('pairs-memory').textContent = pairs;
+  }
+  function start(){ resize(); seed(); loop(); }
+  function pause(){ cancelAnimationFrame(raf); }
+  function destroy(){ cancelAnimationFrame(raf); }
+  function loop(){ raf=requestAnimationFrame(loop); draw(); }
+  function draw(){
+    ctx.clearRect(0,0,w,h);
+    ctx.font = 'bold 20px sans-serif';
+    cards.forEach((c,i)=> {
+      ctx.fillStyle = c.revealed? '#ff3b70' : 'rgba(255,255,255,0.03)';
+      ctx.fillRect(c.x+8, c.y+8, c.w, c.h);
+      if(c.revealed){ ctx.fillStyle='#fff'; ctx.fillText(c.v, c.x + c.w/2, c.y + c.h/2); }
+    });
+  }
+  canvas.addEventListener('click', (e)=>{
+    const rect = canvas.getBoundingClientRect(); const ratio = (window.devicePixelRatio||1);
+    const x = (e.clientX - rect.left) * ratio; const y = (e.clientY - rect.top) * ratio;
+    cards.forEach(c=>{
+      if(x>c.x+8 && x< c.x+8+c.w && y > c.y+8 && y < c.y+8+c.h){
+        if(c.revealed) return;
+        c.revealed = true; flipped.push(c);
+        if(flipped.length===2){
+          if(flipped[0].v === flipped[1].v){ pairs++; document.getElementById('pairs-memory').textContent = pairs; AudioEngine.clickSound(); flipped.length=0; }
+          else { setTimeout(()=>{ flipped.forEach(f=>f.revealed=false); flipped.length=0; }, 600); }
+        }
+      }
+    });
+  });
+  return { start, pause, destroy };
+}
+
+// ---- initialize slots ----
+const slots = {
+  shooter: new GameSlot('shooter', initShooter),
+  dodge: new GameSlot('dodge', initDodge),
+  snake: new GameSlot('snake', initSnake),
+  break: new GameSlot('break', initBreakout),
+  whack: new GameSlot('whack', initWhack),
+  memory: new GameSlot('memory', initMemory),
+};
+
+// wire buttons
+document.querySelectorAll('.smallBtn').forEach(b=>{
+  b.addEventListener('click', ()=> {
+    const game = b.dataset.game; const action = b.dataset.action;
+    if(action==='play') { slots[game].play(); AudioEngine.clickSound(); }
+    if(action==='pause'){ slots[game].pause(); }
+    if(action==='restart'){ slots[game].restart(); AudioEngine.boom(); }
+  });
+});
+
+// responsive canvas redraw on resize
+window.addEventListener('resize', ()=> {
+  Object.values(slots).forEach(s=>{ if(s.instance && s.instance.destroy){ s.instance.destroy(); s.instance = s.initFn(document.getElementById('c-'+s.id)); if(s.running) s.instance.start(); } });
+});
+
+// autoplay safety: resume audio on first user gesture
+document.body.addEventListener('click', function once(){
+  try{ AudioEngine.startBackground(); musicOn=true; musicToggle.textContent='🔊 Música ON'; }catch(e){}
+  document.body.removeEventListener('click', once);
+});
+
+</script>
 </body>
 </html>
