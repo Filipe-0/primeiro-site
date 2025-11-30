@@ -1,220 +1,225 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cyberpunk Games Hub</title>
-
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Minecraft Hub — Cyber Gamer</title>
 <style>
-    body {
-        margin: 0;
-        font-family: 'Segoe UI', sans-serif;
-        background: #0a0a0a;
-        color: #00eaff;
-        overflow-x: hidden;
-    }
-
-    /* ---------------- MENU ---------------- */
-    header {
-        background: rgba(0, 0, 0, 0.8);
-        backdrop-filter: blur(5px);
-        padding: 20px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        border-bottom: 2px solid #00eaff;
-        box-shadow: 0 0 20px #00eaff;
-    }
-
-    header h1 {
-        font-size: 28px;
-        text-shadow: 0 0 15px #00eaff;
-    }
-
-    nav a {
-        margin: 0 15px;
-        color: #00eaff;
-        font-weight: bold;
-        text-decoration: none;
-        transition: 0.3s;
-    }
-
-    nav a:hover {
-        text-shadow: 0 0 10px #ff00ff;
-        color: #ff00ff;
-    }
-
-    /* ---------------- PAINEL DO JOGADOR ---------------- */
-    #player-panel {
-        margin: 20px;
-        padding: 20px;
-        border: 2px solid #ff00ff;
-        border-radius: 10px;
-        background: rgba(20, 0, 20, 0.6);
-        box-shadow: 0 0 20px #ff00ff;
-    }
-
-    /* ---------------- ÁREA DO JOGO ---------------- */
-    .game-box {
-        margin: 30px auto;
-        width: 90%;
-        max-width: 900px;
-        border: 3px solid #00eaff;
-        border-radius: 10px;
-        padding: 10px;
-        background: black;
-        box-shadow: 0 0 30px #00eaff;
-    }
-
-    iframe {
-        width: 100%;
-        height: 500px;
-        border: none;
-        border-radius: 10px;
-    }
-
-    /* ---------------- CHAT ---------------- */
-    #chat-box {
-        width: 90%;
-        margin: 40px auto;
-        padding: 20px;
-        border: 2px solid #8800ff;
-        box-shadow: 0 0 20px #8800ff;
-        background: rgba(0,0,20,0.7);
-        border-radius: 10px;
-    }
-
-    #messages {
-        height: 200px;
-        overflow-y: auto;
-        background: rgba(0,0,0,0.5);
-        padding: 10px;
-        border-radius: 5px;
-        border: 1px solid #5500aa;
-    }
-
-    .msg {
-        padding: 5px;
-        margin: 5px 0;
-        background: rgba(50,0,80,0.6);
-        border-left: 3px solid #ff00ff;
-    }
-
-    input, button {
-        padding: 10px;
-        margin-top: 10px;
-        width: 100%;
-        border-radius: 5px;
-        border: none;
-    }
-
-    button {
-        background: #00eaff;
-        cursor: pointer;
-        font-weight: bold;
-    }
-
-    button:hover {
-        background: #ff00ff;
-        color: white;
-    }
+  :root{
+    --bg:#071021; --accent:#ff2d95; --neon:#00fff6; --glass: rgba(255,255,255,0.04);
+    --card-bg: linear-gradient(135deg, rgba(255,45,149,0.06), rgba(0,255,246,0.03));
+  }
+  *{box-sizing:border-box;font-family:Inter,Segoe UI,Arial,sans-serif;color:#e6f6ff}
+  body{margin:0;background:
+    radial-gradient(ellipse at 10% 10%, rgba(255,45,149,0.06), transparent 10%),
+    radial-gradient(ellipse at 90% 90%, rgba(0,255,246,0.03), transparent 10%),
+    var(--bg); min-height:100vh; display:flex; align-items:center; justify-content:center; padding:20px;}
+  .panel{width:100%; max-width:1100px; background:var(--card-bg); border-radius:16px; padding:24px; box-shadow: 0 8px 30px rgba(0,0,0,0.6); border:1px solid rgba(255,255,255,0.03);}
+  .header{display:flex; gap:16px; align-items:center}
+  .logo{width:72px;height:72px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--neon));display:flex;align-items:center;justify-content:center;font-weight:700;color:#071021;font-size:18px}
+  h1{margin:0;font-size:24px;letter-spacing:0.6px}
+  p.lead{margin:6px 0 0;color:#c7f7ff88}
+  .grid{display:grid; grid-template-columns: 1fr 360px; gap:20px; margin-top:20px}
+  .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border-radius:12px; padding:18px; border:1px solid rgba(255,255,255,0.03)}
+  .server-info{display:flex;flex-direction:column;gap:12px}
+  .big {font-size:20px;font-weight:700;color:#fff}
+  .muted{color:#9feff6aa}
+  .controls{display:flex;gap:8px;flex-wrap:wrap}
+  button{background:transparent;border:1px solid rgba(255,255,255,0.06); padding:10px 14px;border-radius:10px;color:inherit;cursor:pointer; transition:all .18s; backdrop-filter: blur(6px)}
+  button:hover{transform:translateY(-4px); box-shadow: 0 6px 18px rgba(0,0,0,0.6)}
+  .btn-primary{background:linear-gradient(90deg,var(--accent),var(--neon)); color:#071021; border:0}
+  .btn-danger{background:linear-gradient(90deg,#ff6767,#ff2d95); color:#fff}
+  .games{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+  .game-tile{height:140px;border-radius:10px;overflow:hidden;position:relative;background:#0b1722}
+  .game-tile .meta{position:absolute;left:12px;bottom:12px;color:#fff}
+  .footer{margin-top:14px;display:flex;align-items:center;justify-content:space-between;color:#9feff6aa;font-size:13px}
+  .chat{height:320px; overflow:auto; background:rgba(0,0,0,0.18); padding:10px; border-radius:10px}
+  .fullscreen {position:fixed; right:18px; bottom:18px; border-radius:999px; padding:12px 14px; font-size:18px}
+  /* animations */
+  .neon {text-shadow: 0 0 6px rgba(0,255,246,0.6), 0 0 18px rgba(255,45,149,0.08)}
 </style>
 </head>
 <body>
+<div class="panel" id="app">
+  <div class="header">
+    <div class="logo">MC</div>
+    <div>
+      <h1 class="neon">Minecraft Hub — Cyberpunk</h1>
+      <p class="lead">Servidor 1.20.1 • Jogadores: <span id="players">0</span> • Latência: <span id="lat">—</span> ms</p>
+    </div>
+  </div>
 
-<header>
-    <h1>⚡ Cyberpunk Games Hub ⚡</h1>
-    <nav>
-        <a href="#games">Jogos</a>
-        <a href="#chat">Chat</a>
-        <a href="#player-panel">Perfil</a>
-    </nav>
-</header>
+  <div class="grid">
+    <!-- main column -->
+    <div>
+      <div class="card server-info">
+        <div class="big">Servidor Minecraft 1.20.1</div>
+        <div class="muted">Endereço público:</div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <input id="serverAddr" value="SEU_IP_PUBLICO:25565" style="flex:1;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit" />
+          <div class="controls">
+            <button class="btn-primary" id="btnPlay">🎮 Jogar</button>
+            <button id="btnCopy">📋 Copiar</button>
+            <button id="btnHow">❓ Instruções</button>
+          </div>
+        </div>
 
-<div id="player-panel">
-    <h2>👤 Painel do Jogador</h2>
-    <p>Nickname: <strong>Jogador</strong></p>
-    <p>Nível: 1</p>
-    <p>XP: 0 / 100</p>
+        <div style="margin-top:12px; display:flex; gap:8px; align-items:center">
+          <button id="btnStart">▶️ Start (local)</button>
+          <button id="btnStop" class="btn-danger">⏸️ Stop (local)</button>
+          <button id="btnRestart">🔁 Reiniciar (local)</button>
+        </div>
+
+        <div style="margin-top:14px" class="muted">Observação: os botões Start/Stop são apenas instruções: para controlar realmente o servidor você precisa executar os scripts no PC/VPS onde o servidor foi instalado.</div>
+      </div>
+
+      <div style="margin-top:12px" class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <strong>Jogos / Demos</strong>
+          <span class="muted">Vários estilos • 3D & efeitos</span>
+        </div>
+        <div class="games" style="margin-top:12px">
+          <div class="game-tile" style="background-image: url('https://i.imgur.com/6Iej2c3.png'); background-size:cover;">
+            <div class="meta"><strong>Clássico</strong><div class="muted">Demo</div></div>
+          </div>
+          <div class="game-tile" style="background-image: url('https://i.imgur.com/8bKQ8.png'); background-size:cover;">
+            <div class="meta"><strong>FPS Arena</strong><div class="muted">Demo</div></div>
+          </div>
+          <div class="game-tile" style="background-image: url('https://i.imgur.com/jy0b.png'); background-size:cover;">
+            <div class="meta"><strong>Corrida</strong><div class="muted">Demo</div></div>
+          </div>
+          <div class="game-tile" style="background:#08121a;display:flex;align-items:center;justify-content:center">
+            <div class="meta"><strong>3D Demo</strong><div class="muted">WebGL</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:12px" class="card">
+        <strong>Painel do Jogador</strong>
+        <div style="display:flex;gap:12px;margin-top:8px;align-items:center">
+          <div style="width:72px;height:72px;border-radius:10px;background:linear-gradient(135deg,#ff2d95,#00fff6);display:flex;align-items:center;justify-content:center;font-weight:700;color:#071021">YOU</div>
+          <div>
+            <div class="big" id="playerName">Convidado</div>
+            <div class="muted">Rank: <span id="rank">Jogador</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- right column -->
+    <div>
+      <div class="card">
+        <strong>Chat</strong>
+        <div class="chat" id="chatBox">
+          <div class="muted">Chat público do servidor (simulado)</div>
+        </div>
+        <div style="display:flex;gap:8px;margin-top:8px">
+          <input id="chatInput" placeholder="Escreva algo..." style="flex:1;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit" />
+          <button id="sendChat">Enviar</button>
+        </div>
+      </div>
+
+      <div style="margin-top:12px" class="card">
+        <strong>Controles</strong>
+        <div style="margin-top:8px;color:#9feff6aa">
+          <div>🎵 Música: <button id="toggleMusic">⏯️</button></div>
+          <div style="margin-top:8px">🔊 Volume: <input id="vol" type="range" min="0" max="1" step="0.05" value="0.6" /></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div>Made with ❤️ — Tema Cyberpunk</div>
+    <div>Pressione <strong>F11</strong> para tela cheia</div>
+  </div>
 </div>
 
-<h2 style="text-align:center; margin-top:50px;" id="games">🎮 Escolha seu jogo</h2>
+<button class="fullscreen btn-primary" id="fullBtn">⤢ Tela cheia</button>
 
-<!-- -------- JOGOS 2D FUNCIONAIS -------- -->
-
-<div class="game-box">
-    <h3>Dino Game</h3>
-    <iframe src="https://chromedino.com/"></iframe>
-</div>
-
-<div class="game-box">
-    <h3>Flappy Bird</h3>
-    <iframe src="https://flappybird.io/"></iframe>
-</div>
-
-<div class="game-box">
-    <h3>Snake</h3>
-    <iframe src="https://playsnake.org/"></iframe>
-</div>
-
-<div class="game-box">
-    <h3>Pong</h3>
-    <iframe src="https://pong-2d.netlify.app/"></iframe>
-</div>
-
-<div class="game-box">
-    <h3>Tetris</h3>
-    <iframe src="https://tetris.com/play-tetris"></iframe>
-</div>
-
-<div class="game-box">
-    <h3>Breakout</h3>
-    <iframe src="https://eatable-alpha.github.io/breakout/"></iframe>
-</div>
-
-<!-- -------- JOGOS 3D -------- -->
-
-<h2 style="text-align:center; margin-top:50px;">🔥 Jogos 3D</h2>
-
-<div class="game-box">
-    <h3>Krunker (FPS 3D)</h3>
-    <iframe src="https://krunker.io"></iframe>
-</div>
-
-<div class="game-box">
-    <h3>Shell Shockers (FPS 3D)</h3>
-    <iframe src="https://shellshock.io"></iframe>
-</div>
-
-<div class="game-box">
-    <h3>Rocket Bot Royale</h3>
-    <iframe src="https://rocketbotroyale.com"></iframe>
-</div>
-
-<!-- ------------- CHAT ------------- -->
-
-<div id="chat-box" id="chat">
-    <h2>💬 Chat</h2>
-    <div id="messages"></div>
-    <input id="msgText" type="text" placeholder="Digite sua mensagem...">
-    <button onclick="sendMsg()">Enviar</button>
-</div>
+<audio id="bgm" loop src=""></audio>
 
 <script>
-function sendMsg() {
-    const text = document.getElementById("msgText").value;
-    if (text.trim() === "") return;
+  // === CONFIGURE AQUI ===
+  const SERVER_IP = document.getElementById('serverAddr').value || 'SEU_IP_PUBLICO';
+  const SERVER_PORT = 25565;
 
-    let msgBox = document.getElementById("messages");
-    let div = document.createElement("div");
-    div.className = "msg";
-    div.innerText = text;
-    msgBox.appendChild(div);
+  // copy IP
+  document.getElementById('btnCopy').addEventListener('click', ()=> {
+    const val = document.getElementById('serverAddr').value;
+    navigator.clipboard.writeText(val).then(()=> alert('Endereço copiado: ' + val));
+  });
 
-    document.getElementById("msgText").value = "";
-    msgBox.scrollTop = msgBox.scrollHeight;
-}
+  // try to open minecraft client (protocolo experimental)
+  document.getElementById('btnPlay').addEventListener('click', ()=> {
+    const addr = document.getElementById('serverAddr').value;
+    // tentativa: abrir protocolo (nem todos navegadores suportam)
+    const url = `minecraft://${addr}`;
+    window.location = url;
+    // instruções caso não funcione:
+    setTimeout(()=> {
+      if (!confirm('Se o jogo não abriu, copie o IP e cole no Minecraft → Multiplayer → Direct Connect. Deseja copiar o IP agora?')) {
+        return;
+      }
+      navigator.clipboard.writeText(addr);
+    }, 1000);
+  });
+
+  // chat (simulado)
+  document.getElementById('sendChat').addEventListener('click', ()=> {
+    const txt = document.getElementById('chatInput').value.trim();
+    if (!txt) return;
+    const node = document.createElement('div');
+    node.textContent = 'Você: ' + txt;
+    document.getElementById('chatBox').appendChild(node);
+    document.getElementById('chatInput').value = '';
+    document.getElementById('chatBox').scrollTop = document.getElementById('chatBox').scrollHeight;
+  });
+
+  // fullscreen
+  document.getElementById('fullBtn').addEventListener('click', ()=> {
+    const el = document.getElementById('app');
+    if (!document.fullscreenElement) el.requestFullscreen && el.requestFullscreen();
+    else document.exitFullscreen && document.exitFullscreen();
+  });
+
+  // music control (bgm.src can be set to a hosted mp3)
+  const bgm = document.getElementById('bgm');
+  document.getElementById('toggleMusic').addEventListener('click', ()=> {
+    if (!bgm.src) {
+      alert('Adicione um arquivo de música no elemento <audio id="bgm" src="LINK_DE_MP3">');
+      return;
+    }
+    if (bgm.paused) bgm.play(); else bgm.pause();
+  });
+  document.getElementById('vol').addEventListener('input', (e)=> bgm.volume = e.target.value);
+
+  // Start/Stop local (mostra instruções)
+  document.getElementById('btnStart').addEventListener('click', ()=> {
+    alert('Para iniciar o servidor localmente: execute o script start.bat (Windows) ou ./start.sh (Linux) na pasta do servidor.');
+  });
+  document.getElementById('btnStop').addEventListener('click', ()=> {
+    alert('No servidor, use CTRL+C no terminal ou envie o comando "stop" no console do servidor para desligar com segurança.');
+  });
+  document.getElementById('btnRestart').addEventListener('click', ()=> {
+    alert('Reinicie rodando stop e depois start; ou reinicie o serviço do seu VPS que gerencia o servidor.');
+  });
+
+  // small simulated stats
+  document.getElementById('players').textContent = '1';
+  document.getElementById('lat').textContent = '35';
+
+  // keyboard: press P to copy IP (convenience)
+  window.addEventListener('keydown', e => {
+    if (e.key.toLowerCase() === 'p') navigator.clipboard.writeText(document.getElementById('serverAddr').value);
+  });
+
+  // responsive tweak: if small screen, stack columns
+  window.addEventListener('resize', ()=> {
+    const grid = document.querySelector('.grid');
+    if (window.innerWidth < 880) grid.style.gridTemplateColumns = '1fr';
+    else grid.style.gridTemplateColumns = '1fr 360px';
+  });
 </script>
-
 </body>
 </html>
