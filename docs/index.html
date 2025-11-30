@@ -1,309 +1,114 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Jogos - Meu Site</title>
-<style>
-  :root{--bg:#0b1220;--card:#0f1724;--accent:#29b6f6;--muted:#98a0ad;--glass:rgba(255,255,255,0.03)}
-  body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;background:linear-gradient(180deg,#07101b 0%, #0b1220 100%);color:#e6eef6;min-height:100vh}
-  header{padding:20px 24px;display:flex;gap:16px;align-items:center;border-bottom:1px solid rgba(255,255,255,0.03)}
-  header img.logo{width:56px;height:56px;border-radius:8px;object-fit:cover}
-  header h1{font-size:18px;margin:0}
-  .container{max-width:1100px;margin:28px auto;padding:0 18px;display:grid;grid-template-columns:1fr;gap:18px}
-  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:18px}
-  .card{background:var(--card);padding:14px;border-radius:12px;box-shadow:0 6px 18px rgba(2,6,23,0.6);border:1px solid rgba(255,255,255,0.03)}
-  .card h2{margin:0 0 8px 0;font-size:16px}
-  canvas{display:block;width:100%;height:300px;background:linear-gradient(180deg,#071321,#061320);border-radius:8px}
-  .controls{margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-  button{background:var(--accent);border:none;padding:8px 12px;border-radius:8px;color:#042233;cursor:pointer;font-weight:600}
-  .muted{color:var(--muted);font-size:13px}
-  .score{font-weight:700}
-  footer{max-width:1100px;margin:24px auto;padding:12px 18px;color:var(--muted);font-size:13px}
-  .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-  .small{font-size:13px;color:var(--muted)}
-  .img-preview{width:120px;height:80px;border-radius:8px;object-fit:cover;border:1px solid rgba(255,255,255,0.04)}
-  @media(max-width:420px){canvas{height:220px}}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meus Jogos</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #111;
+            color: white;
+            text-align: center;
+        }
+
+        h1 {
+            margin-top: 20px;
+        }
+
+        .game-box {
+            margin: 40px auto;
+            padding: 20px;
+            width: 90%;
+            max-width: 700px;
+            background: #222;
+            border-radius: 15px;
+            box-shadow: 0px 0px 20px rgba(255,255,255,0.1);
+        }
+
+        iframe {
+            width: 100%;
+            height: 400px;
+            border: none;
+            border-radius: 10px;
+            background: black;
+        }
+
+        button {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .start { background: #0a0; color: white; }
+        .stop { background: #a00; color: white; }
+    </style>
+
+    <script>
+        function startGame(id, url) {
+            document.getElementById(id).src = url;
+        }
+
+        function stopGame(id) {
+            document.getElementById(id).src = "";
+        }
+    </script>
 </head>
 <body>
-<header>
-  <!-- Troque "imagen do meu site.jfif" pelo nome exato do arquivo que subiu (docs/imagen do meu site.jfif) -->
-  <img class="logo" src="imagen%20do%20meu%20site.jfif" alt="logo" onerror="this.style.display='none'">
-  <div>
-    <h1>Minha Página de Jogos</h1>
-    <div class="small">3 jogos simples — clique nos jogos para começar</div>
-  </div>
-</header>
 
-<main class="container">
-  <section class="grid">
-    <!-- Click Shooter -->
-    <div class="card" id="card-click">
-      <h2>Click Shooter</h2>
-      <canvas id="clickCanvas"></canvas>
-      <div class="controls">
-        <div class="row">
-          <div class="muted">Tempo:</div>
-          <button id="clickStart">Iniciar (30s)</button>
-          <div class="small">Pontos: <span id="clickScore" class="score">0</span></div>
-        </div>
-        <div class="small">Clique no alvo vermelho antes que ele desapareça.</div>
-      </div>
-    </div>
+<h1>🎮 Meus Jogos</h1>
 
-    <!-- Space Shooter -->
-    <div class="card" id="card-space">
-      <h2>Space Shooter</h2>
-      <canvas id="spaceCanvas"></canvas>
-      <div class="controls">
-        <div class="row">
-          <div class="muted">Controles:</div>
-          <div class="small">← → mover · <strong>Space</strong> atirar</div>
-          <button id="spaceStart">Reiniciar</button>
-          <div class="small">Score: <span id="spaceScore" class="score">0</span></div>
-        </div>
-      </div>
-    </div>
+<!-- JOGO 1 -->
+<div class="game-box">
+    <h2>Jogo 1 – Tiro 2D</h2>
+    <iframe id="game1"></iframe>
+    <button class="start" onclick="startGame('game1', 'https://v6p9d9t4.ssl.hwcdn.net/html/500306/index.html')">Iniciar</button>
+    <button class="stop" onclick="stopGame('game1')">Parar</button>
+</div>
 
-    <!-- Aim Trainer -->
-    <div class="card" id="card-aim">
-      <h2>Aim Trainer</h2>
-      <canvas id="aimCanvas"></canvas>
-      <div class="controls">
-        <div class="row">
-          <button id="aimStart">Iniciar (20 alvos)</button>
-          <div class="small">Acertos: <span id="aimScore" class="score">0</span></div>
-        </div>
-        <div class="small">Clique rapidamente nos círculos que aparecem.</div>
-      </div>
-    </div>
-  </section>
+<!-- JOGO 2 -->
+<div class="game-box">
+    <h2>Jogo 2 – Flappy Bird</h2>
+    <iframe id="game2"></iframe>
+    <button class="start" onclick="startGame('game2', 'https://flappybird.io/')">Iniciar</button>
+    <button class="stop" onclick="stopGame('game2')">Parar</button>
+</div>
 
-  <section class="card">
-    <h2>Como adicionar mais jogos</h2>
-    <div class="small">
-      Para colocar jogos prontos (ex.: HTML5/JS), crie uma pasta no seu repositório (ex.: <code>games/</code>) e adicione os arquivos do jogo,
-      depois adicione um link ou iframe no index apontando para <code>games/nome-do-jogo/index.html</code>.
-    </div>
-    <div style="margin-top:8px" class="row">
-      <div class="small">Exemplo de link para jogo externo:</div>
-      <div class="small"><code>&lt;iframe src="https://example.com/jogo.html"&gt;&lt;/iframe&gt;</code></div>
-    </div>
-  </section>
-</main>
+<!-- JOGO 3 -->
+<div class="game-box">
+    <h2>Jogo 3 – Dino Chrome</h2>
+    <iframe id="game3"></iframe>
+    <button class="start" onclick="startGame('game3', 'https://chromedino.com/')">Iniciar</button>
+    <button class="stop" onclick="stopGame('game3')">Parar</button>
+</div>
 
-<footer>
-  <div class="row">
-    <div class="small">Dicas:</div>
-    <div class="small">Se for usar imagens com espaços no nome, use %20 (ex.: <code>imagen%20do%20meu%20site.jfif</code>) ou renomeie sem espaços.</div>
-  </div>
-</footer>
+<!-- JOGO 4 -->
+<div class="game-box">
+    <h2>Jogo 4 – Carros 3D</h2>
+    <iframe id="game4"></iframe>
+    <button class="start" onclick="startGame('game4', 'https://crazygames.com/embed/monsters-wheels-special')">Iniciar</button>
+    <button class="stop" onclick="stopGame('game4')">Parar</button>
+</div>
 
-<script>
-/* ---------------- Click Shooter ---------------- */
-(function(){
-  const canvas = document.getElementById('clickCanvas');
-  const ctx = canvas.getContext('2d');
-  function resize(){ canvas.width = canvas.clientWidth; canvas.height = canvas.clientHeight; draw(); }
-  window.addEventListener('resize', resize);
-  let score=0, target=null, running=false, timer=30, timerId;
-  document.getElementById('clickStart').addEventListener('click', ()=>{
-    score=0; document.getElementById('clickScore').textContent=score;
-    running=true; timer=30;
-    spawn();
-    timerId = setInterval(()=>{
-      timer--;
-      if(timer<=0){ stop(); }
-    },1000);
-  });
-  function spawn(){
-    const r = 22 + Math.random()*18;
-    const x = r + Math.random()*(canvas.width-2*r);
-    const y = r + Math.random()*(canvas.height-2*r);
-    target = {x,y,r,ttl: 900};
-    setTimeout(()=>{ if(running) spawn()}, 900 + Math.random()*900);
-    draw();
-  }
-  function stop(){
-    running=false;
-    target=null;
-    clearInterval(timerId);
-    draw();
-    alert('Fim! sua pontuação: '+score);
-  }
-  canvas.addEventListener('click', (e)=>{
-    if(!running) return;
-    const rect = canvas.getBoundingClientRect();
-    const mx = e.clientX - rect.left;
-    const my = e.clientY - rect.top;
-    if(target){
-      const dx = mx-target.x, dy = my-target.y;
-      if(Math.hypot(dx,dy) <= target.r){
-        score += Math.round(10 + (40/target.r));
-        document.getElementById('clickScore').textContent = score;
-        target = null;
-      }
-    }
-    draw();
-  });
-  function draw(){
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    // fundo
-    ctx.fillStyle = 'rgba(0,0,0,0.15)';
-    ctx.fillRect(0,0,canvas.width,canvas.height);
-    // alvo
-    if(target){
-      ctx.beginPath();
-      ctx.fillStyle = '#ef4444';
-      ctx.arc(target.x,target.y,target.r,0,Math.PI*2);
-      ctx.fill();
-      ctx.lineWidth = 4; ctx.strokeStyle = 'rgba(255,255,255,0.08)'; ctx.stroke();
-    } else {
-      ctx.fillStyle = 'rgba(255,255,255,0.02)';
-      ctx.fillRect(0,0,canvas.width,canvas.height);
-    }
-    // HUD
-    ctx.fillStyle='#cbd5e1'; ctx.font='16px sans-serif';
-    ctx.fillText('Click Shooter — tempo: '+timer+'s',10,20);
-    ctx.fillText('Pontos: '+score,10,40);
-  }
-  resize();
-})();
+<!-- JOGO 5 -->
+<div class="game-box">
+    <h2>Jogo 5 – Parkour 3D</h2>
+    <iframe id="game5"></iframe>
+    <button class="start" onclick="startGame('game5', 'https://crazygames.com/embed/parkour')">Iniciar</button>
+    <button class="stop" onclick="stopGame('game5')">Parar</button>
+</div>
 
-/* ---------------- Space Shooter ---------------- */
-(function(){
-  const canvas = document.getElementById('spaceCanvas');
-  const ctx = canvas.getContext('2d');
-  function resize(){ canvas.width = canvas.clientWidth; canvas.height = canvas.clientHeight; draw(); }
-  window.addEventListener('resize', resize);
-  let ship = {x:50,y:0,w:34,h:22, vx:0}, bullets = [], enemies = [], score=0, running=false;
-  const keys = {};
-  document.addEventListener('keydown', e=> keys[e.code]=true);
-  document.addEventListener('keyup', e=> keys[e.code]=false);
-  document.getElementById('spaceStart').addEventListener('click', start);
-  function start(){
-    ship.x = canvas.width/2; ship.y = canvas.height - 60; score=0; bullets=[]; enemies=[]; running=true;
-    spawnEnemy();
-    requestAnimationFrame(loop);
-  }
-  function spawnEnemy(){
-    if(!running) return;
-    enemies.push({x:20 + Math.random()*(canvas.width-40), y:-20, r:16, vy: 0.6 + Math.random()*1.2});
-    setTimeout(spawnEnemy, 600 + Math.random()*1200);
-  }
-  function loop(){
-    if(!running) return;
-    // controls
-    if(keys['ArrowLeft']) ship.x -= 6;
-    if(keys['ArrowRight']) ship.x += 6;
-    if(keys['Space'] && bullets.length < 6) {
-      bullets.push({x:ship.x, y:ship.y-12, vy:-7});
-      // tiny cooldown by limiting bullets array
-    }
-    ship.x = Math.max(20, Math.min(canvas.width-20, ship.x));
-    // update bullets
-    bullets.forEach(b=> b.y += b.vy);
-    bullets = bullets.filter(b=> b.y > -20);
-    // update enemies
-    enemies.forEach(en => en.y += en.vy);
-    // collisions
-    enemies.forEach((en,ei)=>{
-      bullets.forEach((b,bi)=>{
-        const dx = b.x-en.x, dy = b.y-en.y;
-        if(Math.hypot(dx,dy) < en.r+6){
-          enemies.splice(ei,1); bullets.splice(bi,1); score += 10;
-        }
-      });
-      if(en.y > canvas.height + 20) enemies.splice(ei,1);
-      // hit ship?
-      if(Math.hypot(en.x-ship.x,en.y-ship.y) < en.r + 18){
-        running=false;
-        alert('Game over! Score: '+score);
-      }
-    });
-    draw();
-    // spawn more? handled separately
-    requestAnimationFrame(loop);
-  }
-  function draw(){
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    // fundo espacial (estrelas)
-    for(let i=0;i<60;i++){
-      ctx.fillStyle='rgba(255,255,255,0.03)';
-      ctx.fillRect(i*10%(canvas.width), (i*23)%(canvas.height), 1,1);
-    }
-    // ship
-    ctx.fillStyle='#7dd3fc';
-    ctx.beginPath();
-    ctx.moveTo(ship.x, ship.y-10);
-    ctx.lineTo(ship.x-12, ship.y+12);
-    ctx.lineTo(ship.x+12, ship.y+12);
-    ctx.closePath(); ctx.fill();
-    // bullets
-    ctx.fillStyle='#fff59d';
-    bullets.forEach(b=> ctx.fillRect(b.x-2,b.y-6,4,8));
-    // enemies
-    ctx.fillStyle='#fb7185';
-    enemies.forEach(en=>{
-      ctx.beginPath();
-      ctx.arc(en.x,en.y,en.r,0,Math.PI*2); ctx.fill();
-    });
-    // HUD
-    ctx.fillStyle='#cbd5e1'; ctx.font='14px sans-serif';
-    ctx.fillText('Space Shooter — Score: '+score,10,20);
-  }
-  resize();
-})();
+<!-- JOGO 6 -->
+<div class="game-box">
+    <h2>Jogo 6 – Atirador FPS</h2>
+    <iframe id="game6"></iframe>
+    <button class="start" onclick="startGame('game6', 'https://crazygames.com/embed/forward-assault')">Iniciar</button>
+    <button class="stop" onclick="stopGame('game6')">Parar</button>
+</div>
 
-/* ---------------- Aim Trainer ---------------- */
-(function(){
-  const canvas = document.getElementById('aimCanvas');
-  const ctx = canvas.getContext('2d');
-  function resize(){ canvas.width = canvas.clientWidth; canvas.height = canvas.clientHeight; draw(); }
-  window.addEventListener('resize', resize);
-  let targets=[], aimScore=0, left=0;
-  document.getElementById('aimStart').addEventListener('click', ()=>{
-    targets=[]; aimScore=0; left=20; document.getElementById('aimScore').textContent=aimScore;
-    spawnTarget();
-  });
-  function spawnTarget(){
-    if(left<=0) { alert('Acabou! Acertos: '+aimScore); return; }
-    const r = 18;
-    const x = r + Math.random()*(canvas.width-2*r);
-    const y = r + Math.random()*(canvas.height-2*r);
-    targets = [{x,y,r}];
-    left--;
-    draw();
-    // timeout to auto spawn next if missed
-    setTimeout(()=>{ if(targets.length) spawnTarget(); }, 1200);
-  }
-  canvas.addEventListener('click', (e)=>{
-    const rect = canvas.getBoundingClientRect();
-    const mx = e.clientX - rect.left;
-    const my = e.clientY - rect.top;
-    if(!targets.length) return;
-    const t = targets[0];
-    if(Math.hypot(mx-t.x,my-t.y) <= t.r){
-      aimScore++; document.getElementById('aimScore').textContent=aimScore;
-      targets=[];
-      setTimeout(spawnTarget,150);
-    }
-  });
-  function draw(){
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    ctx.fillStyle='rgba(255,255,255,0.02)'; ctx.fillRect(0,0,canvas.width,canvas.height);
-    if(targets[0]){
-      ctx.beginPath();
-      ctx.fillStyle='#34d399';
-      ctx.arc(targets[0].x,targets[0].y,targets[0].r,0,Math.PI*2); ctx.fill();
-      ctx.lineWidth=4; ctx.strokeStyle='rgba(255,255,255,0.06)'; ctx.stroke();
-    }
-    ctx.fillStyle='#cbd5e1'; ctx.font='14px sans-serif';
-    ctx.fillText('Aim Trainer — Acertos restantes: '+left,10,20);
-  }
-  resize();
-})();
-</script>
 </body>
 </html>
