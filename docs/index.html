@@ -3,154 +3,216 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Portal Gamer</title>
+<title>Cyberpunk Games Hub</title>
 
-<!-- ESTILO GAMER -->
 <style>
     body {
-        background: radial-gradient(circle, #0a0a0a, #000000);
-        color: #00eaff;
-        font-family: Arial, sans-serif;
         margin: 0;
-        padding: 0;
-        text-align: center;
+        font-family: 'Segoe UI', sans-serif;
+        background: #0a0a0a;
+        color: #00eaff;
+        overflow-x: hidden;
     }
 
-    h1 {
-        font-size: 40px;
-        margin-top: 20px;
-        text-shadow: 0 0 15px #00eaff;
-        animation: glow 2s infinite alternate;
-    }
-
-    @keyframes glow {
-        from { text-shadow: 0 0 5px #00eaff; }
-        to   { text-shadow: 0 0 25px #00bfff; }
-    }
-
-    .game-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-        gap: 25px;
+    /* ---------------- MENU ---------------- */
+    header {
+        background: rgba(0, 0, 0, 0.8);
+        backdrop-filter: blur(5px);
         padding: 20px;
-        width: 95%;
-        margin: auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 2px solid #00eaff;
+        box-shadow: 0 0 20px #00eaff;
     }
 
-    .game-card {
-        background: rgba(255, 255, 255, 0.06);
-        padding: 15px;
-        border-radius: 12px;
-        box-shadow: 0 0 15px #006b75;
+    header h1 {
+        font-size: 28px;
+        text-shadow: 0 0 15px #00eaff;
+    }
+
+    nav a {
+        margin: 0 15px;
+        color: #00eaff;
+        font-weight: bold;
+        text-decoration: none;
         transition: 0.3s;
     }
 
-    .game-card:hover {
-        transform: scale(1.05);
-        box-shadow: 0 0 20px #00eaff;
+    nav a:hover {
+        text-shadow: 0 0 10px #ff00ff;
+        color: #ff00ff;
+    }
+
+    /* ---------------- PAINEL DO JOGADOR ---------------- */
+    #player-panel {
+        margin: 20px;
+        padding: 20px;
+        border: 2px solid #ff00ff;
+        border-radius: 10px;
+        background: rgba(20, 0, 20, 0.6);
+        box-shadow: 0 0 20px #ff00ff;
+    }
+
+    /* ---------------- ÁREA DO JOGO ---------------- */
+    .game-box {
+        margin: 30px auto;
+        width: 90%;
+        max-width: 900px;
+        border: 3px solid #00eaff;
+        border-radius: 10px;
+        padding: 10px;
+        background: black;
+        box-shadow: 0 0 30px #00eaff;
     }
 
     iframe {
         width: 100%;
-        height: 260px;
+        height: 500px;
         border: none;
         border-radius: 10px;
     }
 
-    button {
-        padding: 10px 20px;
-        margin: 10px;
-        background: #00eaff;
+    /* ---------------- CHAT ---------------- */
+    #chat-box {
+        width: 90%;
+        margin: 40px auto;
+        padding: 20px;
+        border: 2px solid #8800ff;
+        box-shadow: 0 0 20px #8800ff;
+        background: rgba(0,0,20,0.7);
+        border-radius: 10px;
+    }
+
+    #messages {
+        height: 200px;
+        overflow-y: auto;
+        background: rgba(0,0,0,0.5);
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #5500aa;
+    }
+
+    .msg {
+        padding: 5px;
+        margin: 5px 0;
+        background: rgba(50,0,80,0.6);
+        border-left: 3px solid #ff00ff;
+    }
+
+    input, button {
+        padding: 10px;
+        margin-top: 10px;
+        width: 100%;
+        border-radius: 5px;
         border: none;
-        border-radius: 8px;
+    }
+
+    button {
+        background: #00eaff;
         cursor: pointer;
         font-weight: bold;
-        transition: 0.2s;
     }
 
     button:hover {
-        background: #009fb8;
-        transform: scale(1.1);
+        background: #ff00ff;
+        color: white;
     }
-
 </style>
-
 </head>
 <body>
 
-<h1>🎮 Portal Gamer – 6 Jogos 🔥</h1>
-<p>Escolha um jogo abaixo e divirta-se!</p>
+<header>
+    <h1>⚡ Cyberpunk Games Hub ⚡</h1>
+    <nav>
+        <a href="#games">Jogos</a>
+        <a href="#chat">Chat</a>
+        <a href="#player-panel">Perfil</a>
+    </nav>
+</header>
 
-<!-- 🎵 MÚSICA DE FUNDO -->
-<audio id="bgmusic" autoplay loop>
-    <source src="https://files.catbox.moe/3k7b0e.mp3">
-</audio>
-
-<button onclick="document.getElementById('bgmusic').play()">🎵 Tocar Música</button>
-<button onclick="document.getElementById('bgmusic').pause()">🔇 Parar Música</button>
-
-<hr style="width:80%; opacity:0.2;">
-
-<div class="game-grid">
-
-    <!-- JOGO 1: Tiro 2D -->
-    <div class="game-card">
-        <h2>🔫 Tiro 2D</h2>
-        <iframe id="game1" src="https://funhtml5games.com?play=stickmanpewpew"></iframe>
-        <button onclick="startGame('game1','https://funhtml5games.com?play=stickmanpewpew')">Start</button>
-        <button onclick="stopGame('game1')">Stop</button>
-    </div>
-
-    <!-- JOGO 2: Corrida 2D -->
-    <div class="game-card">
-        <h2>🚗 Corrida 2D</h2>
-        <iframe id="game2" src="https://funhtml5games.com?play=neonrace"></iframe>
-        <button onclick="startGame('game2','https://funhtml5games.com?play=neonrace')">Start</button>
-        <button onclick="stopGame('game2')">Stop</button>
-    </div>
-
-    <!-- JOGO 3: Plataforma 2D -->
-    <div class="game-card">
-        <h2>🧱 Aventura 2D</h2>
-        <iframe id="game3" src="https://funhtml5games.com?play=supermike"></iframe>
-        <button onclick="startGame('game3','https://funhtml5games.com?play=supermike')">Start</button>
-        <button onclick="stopGame('game3')">Stop</button>
-    </div>
-
-    <!-- JOGO 4: 3D Corrida -->
-    <div class="game-card">
-        <h2>🏎️ Corrida 3D</h2>
-        <iframe id="game4" src="https://3kh0.github.io/projects/hillclimb/"></iframe>
-        <button onclick="startGame('game4','https://3kh0.github.io/projects/hillclimb/')">Start</button>
-        <button onclick="stopGame('game4')">Stop</button>
-    </div>
-
-    <!-- JOGO 5: Tiro 3D -->
-    <div class="game-card">
-        <h2>🔫 FPS 3D</h2>
-        <iframe id="game5" src="https://ubg365.github.io/krunker/"></iframe>
-        <button onclick="startGame('game5','https://ubg365.github.io/krunker/')">Start</button>
-        <button onclick="stopGame('game5')">Stop</button>
-    </div>
-
-    <!-- JOGO 6: Minecraft 3D -->
-    <div class="game-card">
-        <h2>⛏️ Minecraft 3D</h2>
-        <iframe id="game6" src="https://sm64js.com"></iframe>
-        <button onclick="startGame('game6','https://sm64js.com')">Start</button>
-        <button onclick="stopGame('game6')">Stop</button>
-    </div>
-
+<div id="player-panel">
+    <h2>👤 Painel do Jogador</h2>
+    <p>Nickname: <strong>Jogador</strong></p>
+    <p>Nível: 1</p>
+    <p>XP: 0 / 100</p>
 </div>
 
-<!-- SCRIPT DOS BOTÕES -->
-<script>
-function startGame(id, url) {
-    document.getElementById(id).src = url;
-}
+<h2 style="text-align:center; margin-top:50px;" id="games">🎮 Escolha seu jogo</h2>
 
-function stopGame(id) {
-    document.getElementById(id).src = "";
+<!-- -------- JOGOS 2D FUNCIONAIS -------- -->
+
+<div class="game-box">
+    <h3>Dino Game</h3>
+    <iframe src="https://chromedino.com/"></iframe>
+</div>
+
+<div class="game-box">
+    <h3>Flappy Bird</h3>
+    <iframe src="https://flappybird.io/"></iframe>
+</div>
+
+<div class="game-box">
+    <h3>Snake</h3>
+    <iframe src="https://playsnake.org/"></iframe>
+</div>
+
+<div class="game-box">
+    <h3>Pong</h3>
+    <iframe src="https://pong-2d.netlify.app/"></iframe>
+</div>
+
+<div class="game-box">
+    <h3>Tetris</h3>
+    <iframe src="https://tetris.com/play-tetris"></iframe>
+</div>
+
+<div class="game-box">
+    <h3>Breakout</h3>
+    <iframe src="https://eatable-alpha.github.io/breakout/"></iframe>
+</div>
+
+<!-- -------- JOGOS 3D -------- -->
+
+<h2 style="text-align:center; margin-top:50px;">🔥 Jogos 3D</h2>
+
+<div class="game-box">
+    <h3>Krunker (FPS 3D)</h3>
+    <iframe src="https://krunker.io"></iframe>
+</div>
+
+<div class="game-box">
+    <h3>Shell Shockers (FPS 3D)</h3>
+    <iframe src="https://shellshock.io"></iframe>
+</div>
+
+<div class="game-box">
+    <h3>Rocket Bot Royale</h3>
+    <iframe src="https://rocketbotroyale.com"></iframe>
+</div>
+
+<!-- ------------- CHAT ------------- -->
+
+<div id="chat-box" id="chat">
+    <h2>💬 Chat</h2>
+    <div id="messages"></div>
+    <input id="msgText" type="text" placeholder="Digite sua mensagem...">
+    <button onclick="sendMsg()">Enviar</button>
+</div>
+
+<script>
+function sendMsg() {
+    const text = document.getElementById("msgText").value;
+    if (text.trim() === "") return;
+
+    let msgBox = document.getElementById("messages");
+    let div = document.createElement("div");
+    div.className = "msg";
+    div.innerText = text;
+    msgBox.appendChild(div);
+
+    document.getElementById("msgText").value = "";
+    msgBox.scrollTop = msgBox.scrollHeight;
 }
 </script>
 
