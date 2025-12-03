@@ -2,27 +2,32 @@
 <html lang="pt-br">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Para Você, Meu Amor ❤️</title>
 
 <style>
+
+  /* 🔧 CORREÇÃO DA TREMEDEIRA */
+  html, body {
+    height: 100%;
+    overflow: hidden !important;
+  }
+
   body {
     margin: 0;
     background: linear-gradient(135deg, #ff7aa2, #ff4d79);
+    overflow: hidden;
     font-family: Arial, sans-serif;
     text-align: center;
     color: white;
-    min-height: 100vh;
-    overflow-x: hidden;
   }
 
   h1 {
-    margin-top: 60px;
+    margin-top: 90px;
     font-size: 32px;
   }
 
   p {
-    width: 90%;
+    width: 80%;
     max-width: 500px;
     margin: auto;
     font-size: 18px;
@@ -32,7 +37,6 @@
   .heart {
     font-size: 50px;
     animation: pulse 1.5s infinite ease-in-out;
-    margin-top: 20px;
   }
 
   @keyframes pulse {
@@ -59,15 +63,12 @@
     transform: scale(1.05);
   }
 
-  /* Corações flutuando - agora FIXED para não empurrar o layout */
   .floating-heart {
-    position: fixed;
+    position: absolute;
     color: white;
     font-size: 20px;
     animation: float 6s linear infinite;
     opacity: 0.8;
-    pointer-events: none;
-    z-index: 1;
   }
 
   @keyframes float {
@@ -75,7 +76,6 @@
     100% { transform: translateY(-800px) scale(1.5); opacity: 0; }
   }
 
-  /* ALERTA BONITO */
   .alert-box {
     position: fixed;
     top: 0; left: 0;
@@ -84,19 +84,16 @@
     display: none;
     align-items: center;
     justify-content: center;
-    z-index: 9999; /* FICA NA FRENTE */
   }
 
   .alert-content {
     background: white;
     color: #ff5c8a;
     padding: 25px;
-    width: 85%;
-    max-width: 300px;
+    width: 300px;
     border-radius: 20px;
     text-align: center;
     animation: popup 0.4s ease;
-    font-size: 16px;
   }
 
   @keyframes popup {
@@ -113,13 +110,6 @@
     cursor: pointer;
     margin-top: 10px;
     font-size: 16px;
-  }
-
-  @media (max-width: 480px) {
-    h1 { font-size: 26px; margin-top: 40px; }
-    p { font-size: 16px; }
-    .heart { font-size: 40px; }
-    .btn { width: 80%; max-width: 260px; }
   }
 </style>
 
@@ -139,13 +129,9 @@
 
   <button class="btn" onclick="showLove()">Clique aqui, meu amor</button>
 
-  <!-- Alerta personalizado -->
   <div class="alert-box" id="alertBox">
     <div class="alert-content">
-      Amor, eu só queria dizer que você é muito especial pra mim. De verdade.
-      Você deixa meus dias melhores sem nem perceber, e eu adoro cada momento com você.
-      Obrigado por tudo, por cada sorriso, por cada carinho… por ser você.
-      Eu te amo demais. ❤️  
+      Amor, eu só queria dizer que você é muito especial pra mim. De verdade. Você deixa meus dias melhores sem nem perceber, e eu adoro cada momento com você. Obrigado por tudo, por cada sorriso, por cada carinho… por ser você. Eu te amo demais. ❤️  
       <br><br>
       <button class="alert-btn" onclick="closeLove()">❤️</button>
     </div>
@@ -160,15 +146,12 @@
     document.getElementById("alertBox").style.display = "none";
   }
 
-  // Criar corações flutuando
   setInterval(() => {
     const heart = document.createElement("div");
     heart.innerHTML = "❤️";
     heart.classList.add("floating-heart");
-
     heart.style.left = Math.random() * window.innerWidth + "px";
-    heart.style.top = window.innerHeight + "px"; // COMEÇA FORA DA TELA
-
+    heart.style.bottom = "-20px";
     document.body.appendChild(heart);
 
     setTimeout(() => heart.remove(), 6000);
