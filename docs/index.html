@@ -2,218 +2,159 @@
 <html lang="pt-br">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cyberpunk Games Hub</title>
+<title>Para Você, Meu Amor ❤️</title>
 
 <style>
-    body {
-        margin: 0;
-        font-family: 'Segoe UI', sans-serif;
-        background: #0a0a0a;
-        color: #00eaff;
-        overflow-x: hidden;
-    }
+  body {
+    margin: 0;
+    background: linear-gradient(135deg, #ff7aa2, #ff4d79);
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    color: white;
+  }
 
-    /* ---------------- MENU ---------------- */
-    header {
-        background: rgba(0, 0, 0, 0.8);
-        backdrop-filter: blur(5px);
-        padding: 20px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        border-bottom: 2px solid #00eaff;
-        box-shadow: 0 0 20px #00eaff;
-    }
+  h1 {
+    margin-top: 90px;
+    font-size: 32px;
+  }
 
-    header h1 {
-        font-size: 28px;
-        text-shadow: 0 0 15px #00eaff;
-    }
+  p {
+    width: 80%;
+    max-width: 500px;
+    margin: auto;
+    font-size: 18px;
+    line-height: 1.5;
+  }
 
-    nav a {
-        margin: 0 15px;
-        color: #00eaff;
-        font-weight: bold;
-        text-decoration: none;
-        transition: 0.3s;
-    }
+  /* Coração pulsando */
+  .heart {
+    font-size: 50px;
+    animation: pulse 1.5s infinite ease-in-out;
+  }
 
-    nav a:hover {
-        text-shadow: 0 0 10px #ff00ff;
-        color: #ff00ff;
-    }
+  @keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.3); }
+    100% { transform: scale(1); }
+  }
 
-    /* ---------------- PAINEL DO JOGADOR ---------------- */
-    #player-panel {
-        margin: 20px;
-        padding: 20px;
-        border: 2px solid #ff00ff;
-        border-radius: 10px;
-        background: rgba(20, 0, 20, 0.6);
-        box-shadow: 0 0 20px #ff00ff;
-    }
+  /* Botão */
+  .btn {
+    background: white;
+    color: #ff5c8a;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+    font-weight: bold;
+    margin-top: 20px;
+  }
 
-    /* ---------------- ÁREA DO JOGO ---------------- */
-    .game-box {
-        margin: 30px auto;
-        width: 90%;
-        max-width: 900px;
-        border: 3px solid #00eaff;
-        border-radius: 10px;
-        padding: 10px;
-        background: black;
-        box-shadow: 0 0 30px #00eaff;
-    }
+  .btn:hover {
+    background: #ffe4ef;
+    transform: scale(1.05);
+  }
 
-    iframe {
-        width: 100%;
-        height: 500px;
-        border: none;
-        border-radius: 10px;
-    }
+  /* Corações flutuando */
+  .floating-heart {
+    position: absolute;
+    color: white;
+    font-size: 20px;
+    animation: float 6s linear infinite;
+    opacity: 0.8;
+  }
 
-    /* ---------------- CHAT ---------------- */
-    #chat-box {
-        width: 90%;
-        margin: 40px auto;
-        padding: 20px;
-        border: 2px solid #8800ff;
-        box-shadow: 0 0 20px #8800ff;
-        background: rgba(0,0,20,0.7);
-        border-radius: 10px;
-    }
+  @keyframes float {
+    0% { transform: translateY(0) scale(1); opacity: 1; }
+    100% { transform: translateY(-800px) scale(1.5); opacity: 0; }
+  }
 
-    #messages {
-        height: 200px;
-        overflow-y: auto;
-        background: rgba(0,0,0,0.5);
-        padding: 10px;
-        border-radius: 5px;
-        border: 1px solid #5500aa;
-    }
+  /* ALERTA BONITO */
+  .alert-box {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.5);
+    display: none;
+    align-items: center;
+    justify-content: center;
+  }
 
-    .msg {
-        padding: 5px;
-        margin: 5px 0;
-        background: rgba(50,0,80,0.6);
-        border-left: 3px solid #ff00ff;
-    }
+  .alert-content {
+    background: white;
+    color: #ff5c8a;
+    padding: 25px;
+    width: 300px;
+    border-radius: 20px;
+    text-align: center;
+    animation: popup 0.4s ease;
+  }
 
-    input, button {
-        padding: 10px;
-        margin-top: 10px;
-        width: 100%;
-        border-radius: 5px;
-        border: none;
-    }
+  @keyframes popup {
+    0% { transform: scale(0.5); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+  }
 
-    button {
-        background: #00eaff;
-        cursor: pointer;
-        font-weight: bold;
-    }
-
-    button:hover {
-        background: #ff00ff;
-        color: white;
-    }
+  .alert-btn {
+    background: #ff5c8a;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    margin-top: 10px;
+    font-size: 16px;
+  }
 </style>
+
 </head>
 <body>
 
-<header>
-    <h1>⚡ Cyberpunk Games Hub ⚡</h1>
-    <nav>
-        <a href="#games">Jogos</a>
-        <a href="#chat">Chat</a>
-        <a href="#player-panel">Perfil</a>
-    </nav>
-</header>
+  <h1>Para Você, Meu Amor ❤️</h1>
 
-<div id="player-panel">
-    <h2>👤 Painel do Jogador</h2>
-    <p>Nickname: <strong>Jogador</strong></p>
-    <p>Nível: 1</p>
-    <p>XP: 0 / 100</p>
-</div>
+  <p>
+    Eu fiz esta pequena surpresa para lembrar o quanto você é especial.
+    Obrigado por fazer meus dias mais leves, meu sorriso mais sincero
+    e meu coração mais feliz.  
+    Eu te amo mais do que qualquer palavra consegue explicar.
+  </p>
 
-<h2 style="text-align:center; margin-top:50px;" id="games">🎮 Escolha seu jogo</h2>
+  <div class="heart">❤️</div>
 
-<!-- -------- JOGOS 2D FUNCIONAIS -------- -->
+  <button class="btn" onclick="showLove()">Clique aqui, meu amor</button>
 
-<div class="game-box">
-    <h3>Dino Game</h3>
-    <iframe src="https://chromedino.com/"></iframe>
-</div>
-
-<div class="game-box">
-    <h3>Flappy Bird</h3>
-    <iframe src="https://flappybird.io/"></iframe>
-</div>
-
-<div class="game-box">
-    <h3>Snake</h3>
-    <iframe src="https://playsnake.org/"></iframe>
-</div>
-
-<div class="game-box">
-    <h3>Pong</h3>
-    <iframe src="https://pong-2d.netlify.app/"></iframe>
-</div>
-
-<div class="game-box">
-    <h3>Tetris</h3>
-    <iframe src="https://tetris.com/play-tetris"></iframe>
-</div>
-
-<div class="game-box">
-    <h3>Breakout</h3>
-    <iframe src="https://eatable-alpha.github.io/breakout/"></iframe>
-</div>
-
-<!-- -------- JOGOS 3D -------- -->
-
-<h2 style="text-align:center; margin-top:50px;">🔥 Jogos 3D</h2>
-
-<div class="game-box">
-    <h3>Krunker (FPS 3D)</h3>
-    <iframe src="https://krunker.io"></iframe>
-</div>
-
-<div class="game-box">
-    <h3>Shell Shockers (FPS 3D)</h3>
-    <iframe src="https://shellshock.io"></iframe>
-</div>
-
-<div class="game-box">
-    <h3>Rocket Bot Royale</h3>
-    <iframe src="https://rocketbotroyale.com"></iframe>
-</div>
-
-<!-- ------------- CHAT ------------- -->
-
-<div id="chat-box" id="chat">
-    <h2>💬 Chat</h2>
-    <div id="messages"></div>
-    <input id="msgText" type="text" placeholder="Digite sua mensagem...">
-    <button onclick="sendMsg()">Enviar</button>
-</div>
+  <!-- Alerta personalizado -->
+  <div class="alert-box" id="alertBox">
+    <div class="alert-content">
+      Amor, eu só queria dizer que você é muito especial pra mim. De verdade. Você deixa meus dias melhores sem nem perceber, e eu adoro cada momento com você. Obrigado por tudo, por cada sorriso, por cada carinho… por ser você.Eu te amo demais. ❤️  
+      <br><br>
+      <button class="alert-btn" onclick="closeLove()">❤️</button>
+    </div>
+  </div>
 
 <script>
-function sendMsg() {
-    const text = document.getElementById("msgText").value;
-    if (text.trim() === "") return;
+  function showLove() {
+    document.getElementById("alertBox").style.display = "flex";
+  }
 
-    let msgBox = document.getElementById("messages");
-    let div = document.createElement("div");
-    div.className = "msg";
-    div.innerText = text;
-    msgBox.appendChild(div);
+  function closeLove() {
+    document.getElementById("alertBox").style.display = "none";
+  }
 
-    document.getElementById("msgText").value = "";
-    msgBox.scrollTop = msgBox.scrollHeight;
-}
+  // Criar corações flutuando
+  setInterval(() => {
+    const heart = document.createElement("div");
+    heart.innerHTML = "❤️";
+    heart.classList.add("floating-heart");
+    heart.style.left = Math.random() * window.innerWidth + "px";
+    heart.style.bottom = "-20px";
+    document.body.appendChild(heart);
+
+    setTimeout(() => heart.remove(), 6000);
+  }, 300);
 </script>
 
 </body>
