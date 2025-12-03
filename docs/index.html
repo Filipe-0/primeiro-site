@@ -13,7 +13,7 @@
     text-align: center;
     color: white;
     min-height: 100vh;
-    overflow-x: hidden; /* permite rolar no celular */
+    overflow-x: hidden;
   }
 
   h1 {
@@ -29,7 +29,6 @@
     line-height: 1.5;
   }
 
-  /* Coração pulsando */
   .heart {
     font-size: 50px;
     animation: pulse 1.5s infinite ease-in-out;
@@ -42,7 +41,6 @@
     100% { transform: scale(1); }
   }
 
-  /* Botão */
   .btn {
     background: white;
     color: #ff5c8a;
@@ -61,14 +59,15 @@
     transform: scale(1.05);
   }
 
-  /* Corações flutuando */
+  /* Corações flutuando - agora FIXED para não empurrar o layout */
   .floating-heart {
-    position: absolute;
+    position: fixed;
     color: white;
     font-size: 20px;
     animation: float 6s linear infinite;
     opacity: 0.8;
     pointer-events: none;
+    z-index: 1;
   }
 
   @keyframes float {
@@ -85,7 +84,7 @@
     display: none;
     align-items: center;
     justify-content: center;
-    z-index: 10;
+    z-index: 9999; /* FICA NA FRENTE */
   }
 
   .alert-content {
@@ -116,7 +115,6 @@
     font-size: 16px;
   }
 
-  /* Ajuste extra para celular */
   @media (max-width: 480px) {
     h1 { font-size: 26px; margin-top: 40px; }
     p { font-size: 16px; }
@@ -167,8 +165,10 @@
     const heart = document.createElement("div");
     heart.innerHTML = "❤️";
     heart.classList.add("floating-heart");
+
     heart.style.left = Math.random() * window.innerWidth + "px";
-    heart.style.bottom = "-20px";
+    heart.style.top = window.innerHeight + "px"; // COMEÇA FORA DA TELA
+
     document.body.appendChild(heart);
 
     setTimeout(() => heart.remove(), 6000);
